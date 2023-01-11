@@ -108,7 +108,7 @@
             <td><input class="title" type="text" name="title" value="{{ $todo->content }}"></td>
             <td><input class="update" type="submit" name="up_button" value="更新"></td>
           </form>
-          <form action="{{ route('todo_delete', $todo->id) }}" method="POST">
+          <form action="/delete" method="POST">
             @csrf
             <td><input class="delete" type="submit" name="de_button" value="削除"></td>
           </form>
