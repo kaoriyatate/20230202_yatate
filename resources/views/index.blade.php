@@ -13,7 +13,7 @@
       background-color: rgb(37, 0, 142);
     }
 
-    section {
+    .todo_list {
       box-sizing: border-box;
       border-radius: 10px 10px;
       background-color: #FFFFFF;
@@ -79,17 +79,20 @@
       background-color: #FFFFFF;
       width: 60px;
       height: 35px;
+
     }
   </style>
 </head>
 
 <body>
   <section>
-    <fome method="get"action = "{{route('get.index')}}">
-      @csrf
+    <div class="todo_list">
       <h1>Todo List</h1>
-      <input type="text" class="content">
-      <input type="submit" class="create" value="追加">
+      <form action="/create" method="POST">
+        @csrf
+        <input type="text" class="content" name="content" value="">
+        <button type="submit" class="create">追加</button>
+      </form>
       <table class="list">
         <tr>
           <th>作成日</th>
@@ -100,15 +103,20 @@
         @foreach ($todos as $todo)
         <tr>
           <td>{{$todo->created_at}}</td>
-          <td><input class="title" type="text" value="{{ $todo->content }}"></td>
-          <td><input class="update" type="submit" value="更新"></td>
-          <td><input class="delete" type="submit" value="削除"></td>
+          <form action="/update" method="POST">
+            @csrf
+            <td><input class="title" type="text" name="title" value="{{ $todo->content }}"></td>
+            <td><input class="update" type="submit" name="up_button" value="更新"></td>
+          </form>
+          <form action="{{ route('todo_delete', $todo->id) }}" method="POST">
+            @csrf
+            <td><input class="delete" type="submit" name="de_button" value="削除"></td>
+          </form>
         </tr>
         @endforeach
       </table>
-      </form>
+    </div>
   </section>
-
 </body>
 
 </html>

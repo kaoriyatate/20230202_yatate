@@ -41,10 +41,10 @@ class TodoController extends Controller
     public function store(Request $request)
     {
     
-        $todo = new TODO;
+        $todo = new Todo;
         $form = $request->all();
-        unset ($form ['_token']);
-        $todo-> save();
+        unset($form ['_token']);
+        $todo->fill($form)->save();
 
         return redirect('/');
     }
@@ -78,14 +78,13 @@ class TodoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $todo = Todo::find($id) ;
-        $todo->content = $request->get('content') ;
-        $todo->save() ;
+        $todo = Todo::find($request->id) ;
+        $todo = Todo::find($request->title);
         $form = $request->all();
         unset($form['_token']);
-        Todo::where('id', $request->id)->update($form);
+        $todo->fill($request->all())->save();
         return redirect('/');
 
     }
@@ -96,10 +95,10 @@ class TodoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request)
     {
     
-
+        
         $todo = Todo::find($request->id)->delete();
         
         return redirect('/');
