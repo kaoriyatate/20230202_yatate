@@ -100,16 +100,18 @@
           <th>更新</th>
           <th>削除</th>
         </tr>
-        @foreach ($todos as $todo)
+        @foreach($todos as $todo)
         <tr>
-          <td>{{$todo->created_at}}</td>
           <form action="/update" method="POST">
             @csrf
-            <td><input class="title" type="text" name="title" value="{{ $todo->content }}"></td>
+            <p><input type="hidden" name="Id" value="{{$todo->id}}"></p>
+            <td>{{$todo->created_at}}</td>
+            <td><input type="text" class="title" name="title" value="{{ $todo->content }}"></td>
             <td><input class="update" type="submit" name="up_button" value="更新"></td>
           </form>
           <form action="/delete" method="POST">
             @csrf
+            <p><input type="hidden" name="id" value="{{$todo->id}}"></p>
             <td><input class="delete" type="submit" name="de_button" value="削除"></td>
           </form>
         </tr>
