@@ -13,7 +13,9 @@ class TodoRequest extends FormRequest
      */
     public function authorize()
     {
+        
         return true;
+        
     }
 
     /**
@@ -26,5 +28,15 @@ class TodoRequest extends FormRequest
         return [
             'content' => 'required|max:20'
         ];
+    }
+
+
+    public function messages()
+    {
+        return [
+            'content.required' => 'タスク名を入力してください',
+            'content.max' => '20文字以内で入力してください'
+        ];
+
     }
 }

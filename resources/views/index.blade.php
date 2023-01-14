@@ -11,6 +11,7 @@
   <style>
     body {
       background-color: rgb(37, 0, 142);
+      padding-top: 200px;
     }
 
     .todo_list {
@@ -18,8 +19,7 @@
       border-radius: 10px 10px;
       background-color: #FFFFFF;
       width: 550px;
-      margin-top: 250px;
-      margin-left: 230px;
+      margin: 0 auto;
 
     }
 
@@ -47,6 +47,24 @@
       width: 60px;
       height: 40px;
       margin-left: 30px;
+
+    }
+
+    dl {
+      display: flex;
+      justify-content: center;
+
+    }
+
+    dt {
+      font-weight: bold;
+      color: red;
+
+    }
+
+    dd {
+      font-weight: bold;
+      color: red;
 
     }
 
@@ -92,6 +110,12 @@
         @csrf
         <input type="text" class="content" name="content" value="">
         <button type="submit" class="create">追加</button>
+        @if($errors->has('content'))
+        <dl>
+          <dt>ERROR</dt>
+          <dd>{{$errors->first('content')}}</dd>
+        </dl>
+        @endif
       </form>
       <table class="list">
         <tr>
@@ -104,7 +128,7 @@
         <tr>
           <form action="/update" method="POST">
             @csrf
-            <td>{{$todo->updated_at}}</td>
+            <td>{{$todo->created_at}}</td>
             <p><input type="hidden" name="id" value="{{$todo->id}}"></p>
             <td><input type="text" class="title" name="content" value="{{ $todo->content }}"></td>
             <td><button type="submit" class="update">更新</button></td>
