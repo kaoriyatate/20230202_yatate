@@ -104,10 +104,10 @@
         <tr>
           <form action="/update" method="POST">
             @csrf
-            <p><input type="hidden" name="Id" value="{{$todo->id}}"></p>
-            <td>{{$todo->created_at}}</td>
-            <td><input type="text" class="title" name="title" value="{{ $todo->content }}"></td>
-            <td><input class="update" type="submit" name="up_button" value="更新"></td>
+            <td>{{$todo->updated_at}}</td>
+            <p><input type="hidden" name="id" value="{{$todo->id}}"></p>
+            <td><input type="text" class="title" name="content" value="{{ $todo->content }}"></td>
+            <td><button type="submit" class="update">更新</button></td>
           </form>
           <form action="/delete" method="POST">
             @csrf
