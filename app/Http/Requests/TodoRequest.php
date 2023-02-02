@@ -26,7 +26,8 @@ class TodoRequest extends FormRequest
     public function rules()
     {
         return [
-            'content' => 'required|max:20'
+            'content' => 'required|max:20',
+            'tag_id' => 'required'
         ];
     }
 
@@ -35,7 +36,8 @@ class TodoRequest extends FormRequest
     {
         return [
             'content.required' => 'タスク名を入力してください',
-            'content.max' => '20文字以内で入力してください'
+            'content.max' => '20文字以内で入力してください',
+            'tag_id' => 'カテゴリーを選んでください'
         ];
 
     }
