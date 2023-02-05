@@ -156,10 +156,9 @@
         </form>
       </ul>
         <form action="{{route('todo_find',)}}" method="GET">
-          @csrf
           <input class="find" type="submit" name="f_button" value="タスク検索"><br>
         </form>  
-        <form action="{{route('todo_store',)}}" method="POST">
+        <form action="/create" method="POST">
           @csrf
           <input type="text" class="content" name="content" value="">
           <select class="form-control" id="tag_id" name="tag_id">

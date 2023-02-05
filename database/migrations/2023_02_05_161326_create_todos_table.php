@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddTodosTable2columns extends Migration
+class CreateTodosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,13 @@ class AddTodosTable2columns extends Migration
      */
     public function up()
     {
-        Schema::table('todos', function (Blueprint $table) {
+        Schema::create('todos', function (Blueprint $table) {
+            $table->id('id');
+            $table->string('content');
+            $table->timestamps(3);
             $table->foreignId('user_id')->constrained();
-
             $table->foreignId('tag_id')->constrained();
-
+    
         });
     }
 
@@ -28,9 +30,6 @@ class AddTodosTable2columns extends Migration
      */
     public function down()
     {
-        Schema::table('todos', function (Blueprint $table) {
-            $table -> dropColumn(('user_id'));
-            $table -> dropColumn('tag_id');
-        });
+        Schema::dropIfExists('todos');
     }
 }
