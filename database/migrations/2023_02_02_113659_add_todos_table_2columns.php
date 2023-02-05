@@ -14,14 +14,9 @@ class AddTodosTable2columns extends Migration
     public function up()
     {
         Schema::table('todos', function (Blueprint $table) {
-            $table->integer('user_id')->unsigned();
-            $table->unsignedBigInteger('user_id')->after('id');
+            $table->foreignId('user_id')->constrained();
 
-            $table->integer('tag_id')->unsigned();
-            $table->unsignedBigInteger('tag_id')->after('content');
-
-            $table-> foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('tag_id')->references ('id')->on('tags')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('tag_id')->constrained();
 
         });
     }

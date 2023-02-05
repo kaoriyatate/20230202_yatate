@@ -55,8 +55,8 @@ class TodoController extends Controller
     {
 
         $todo = new Todo;
-        $todo ->user_id = $request->user()->id;
-        $todo ->tag_id = $request->tag()->id;
+        $request -> merge(['user_id'=> Auth::id()]);
+        $request -> merge(['tag_id'=>Tag::id()]);
         $form = $request->all();
         unset($form['_token']);
         $todo->fill($form)->save();
@@ -71,24 +71,30 @@ class TodoController extends Controller
     }
 
     
-    public function find()
+    public function find(Request $request)
     {
         $tags = Tag::all();
         $user = Auth::user();
         $todos = Todo::paginate(4);
-        $param = ['todos' => $todos, 'user' => $user, 'tags' =>$tags];
+        $param = ['todos' => $todos, 'user' => $user, 'tags' => $tags];
         $todos = Todo::all();
 
-        return view('find', $param);
-    }
+        $action = $request->get('action', 'back');
+
+        return view('find', $param, ['input' => '']);
+        if ($action == 'back') {
+            return redirect('/home');
+
+        }
+    }    
 
 
     public function search(Request $request)
     {
-        $todo = Todo::find($request->input);
+        $todo = Todo::where('content','LIKE BINARY', "%{$request->input}%")->first();
         $param = [
-                'author' => $todo,
-                'input' => $request->input
+                'input' => $request->input,
+                'todo' => $todo
             ];
         return view('find', $param);
     }
@@ -145,4 +151,6 @@ class TodoController extends Controller
 
         return redirect('/home');
     }
+    
 }
+

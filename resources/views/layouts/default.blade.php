@@ -48,17 +48,8 @@
       margin-top: -20px;
     }
 
-    .find {
-      background-color: #FFFFFF;
-      border: 2px solid greenyellow;
-      border-radius: 5px;
-      font-weight: bold;
-      color: greenyellow;
-      width: 80px;
-      height: 40px;
-      margin-left: 30px;
-      margin-bottom: 10px;
-    }
+
+
 
     .content {
       margin-left: 28px;
@@ -76,130 +67,112 @@
       border: 1px solid lightgray;
       border-radius: 5px;
       font-weight: bold;
-    }    
+    }
 
-      .create {
-        background-color: #FFFFFF;
-        border: 2px solid orchid;
-        border-radius: 5px;
-        font-weight: bold;
-        color: orchid;
-        width: 60px;
-        height: 40px;
-        margin-left: 10px;
+    .create {
+      background-color: #FFFFFF;
+      border: 2px solid orchid;
+      border-radius: 5px;
+      font-weight: bold;
+      color: orchid;
+      width: 60px;
+      height: 40px;
+      margin-left: 10px;
 
-      }
+    }
 
-      dl {
-        display: flex;
-        justify-content: center;
+    dl {
+      display: flex;
+      justify-content: center;
 
-      }
+    }
 
-      dt {
-        font-weight: bold;
-        color: red;
+    dt {
+      font-weight: bold;
+      color: red;
 
-      }
+    }
 
-      dd {
-        font-weight: bold;
-        color: red;
+    dd {
+      font-weight: bold;
+      color: red;
 
-      }
+    }
 
-      .list {
-        vertical-align: middle;
-        width: 500px;
-      }
+    .list {
+      vertical-align: middle;
+      width: 500px;
+    }
 
-      .title {
-        border: 1px solid lightgray;
-        width: 180px;
-        height: 25px;
-      }
+    .title {
+      border: 1px solid lightgray;
+      width: 180px;
+      height: 25px;
+    }
 
-      .update {
-        border: 2px solid darkorange;
-        border-radius: 5px;
-        font-weight: bold;
-        color: darkorange;
-        background-color: #FFFFFF;
-        width: 60px;
-        height: 35px;
-      }
+    .update {
+      border: 2px solid darkorange;
+      border-radius: 5px;
+      font-weight: bold;
+      color: darkorange;
+      background-color: #FFFFFF;
+      width: 60px;
+      height: 35px;
+    }
 
-      .delete {
-        border: 2px solid cyan;
-        border-radius: 5px;
-        font-weight: bold;
-        color: cyan;
-        background-color: #FFFFFF;
-        width: 60px;
-        height: 35px;
+    .delete {
+      border: 2px solid cyan;
+      border-radius: 5px;
+      font-weight: bold;
+      color: cyan;
+      background-color: #FFFFFF;
+      width: 60px;
+      height: 35px;
 
-      }
+    }
+
+    .back {
+      border: 2px solid blue;
+      border-radius: 5px;
+      font-weight: bold;
+      background-color: #FFFFFF;
+      width: 60px;
+      height: 35px;
+      margin-left: 20px;
+    }
   </style>
 </head>
 
 <body>
   @yield('title')
   <section>
-    
-      <ul class="log_out">
-        @yield('log_out')
-        @if(Auth::check())
-        <li>{{$user->name}}でログイン中</li>
-        @endif
-        <form action="{{route('logout')}}" method="POST">
+    <table class="list">
+      @yield('list')
+      <tr>
+        <th>作成日</th>
+        <th>タスク名</th>
+        <th>更新</th>
+        <th>削除</th>
+      </tr>
+      @foreach($todos as $todo)
+      <tr>
+        <form action="/update" method="POST">
           @csrf
-          <li><input class="logaut" type="submit" name="log_button" value="ログアウト"></li>
+          <td>{{$todo->created_at}}</td>
+          <p><input type="hidden" name="id" value="{{$todo->id}}"></p>
+          <td><input type="text" class="title" name="content" value="{{ $todo->content }}"></td>
+          <td><button type="submit" class="update">更新</button></td>
         </form>
-      </ul>
-      <form action="/create" method="POST">
-        @csrf
-        <input type="text" class="content" name="content" value="">
-        <select class="form-control" id="tag_id" name="tag_id">
-          @foreach ($tags as $tag)
-          <option value="{{ $tag->tag_id }}">{{ $tag->tag_category }}</option>
-          @endforeach
-        </select>
-        <button type="submit" class="create">追加</button>
-        @if($errors->has('content'))
-        <dl>
-          <dt>ERROR</dt>
-          <dd>{{$errors->first('content')}}</dd>
-        </dl>
-        @endif
-      </form>
-      <table class="list">
-        <tr>
-          <th>作成日</th>
-          <th>タスク名</th>
-          <th>更新</th>
-          <th>削除</th>
-        </tr>
-        @foreach($todos as $todo)
-        <tr>
-          <form action="/update" method="POST">
-            @csrf
-            <td>{{$todo->created_at}}</td>
-            <p><input type="hidden" name="id" value="{{$todo->id}}"></p>
-            <td><input type="text" class="title" name="content" value="{{ $todo->content }}"></td>
-            <td><button type="submit" class="update">更新</button></td>
-          </form>
-          <form action="/delete" method="POST">
-            @csrf
-            <p><input type="hidden" name="id" value="{{$todo->id}}"></p>
-            <td><input class="delete" type="submit" name="de_button" value="削除"></td>
-          </form>
-        </tr>
-        @endforeach
-        @yield('log_out')
-      </table>
-    </div>
+        <form action="/delete" method="POST">
+          @csrf
+          <p><input type="hidden" name="id" value="{{$todo->id}}"></p>
+          <td><input class="delete" type="submit" name="de_button" value="削除"></td>
+        </form>
+      </tr>
+      @endforeach
+      @yield('list')
+    </table>
   </section>
-
 </body>
 
 </html>

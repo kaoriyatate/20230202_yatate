@@ -16,11 +16,10 @@ use App\Http\Controllers\TodoController;
 
 Route::get('/home', [TodoController::class, 'index']);
 Route::get('/home/find', [TodoController::class, 'find'])->name('todo_find');
-Route::post('/search', [TodoController::class, 'search']);
+Route::post('/home/search', [TodoController::class, 'search'])->name('todo_search');
 Route::post('/create', [TodoController::class, 'store'])->name('todo_store');
 Route::post('/update', [TodoController::class, 'update'])->name('todo_update');
-Route::post('/delete', [TodoController::class, 'destroy'])->name('todo_delete');
-
+Route::post('/delete', [TodoController::class, 'destroy'])->name('todo_delet');
 
 
 
