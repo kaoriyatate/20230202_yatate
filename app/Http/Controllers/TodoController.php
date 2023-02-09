@@ -23,24 +23,26 @@ class TodoController extends Controller
         $user = Auth::user();
         $tags = Tag::all();
         $todos = Todo::paginate(4);
-        
-        
-        return view('index', ['todos'=>$todos,'user' =>$user,'tags'=>$tags]);
-        
-        
+
+
+        if (Auth::check()) {
+            return view('index', ['todos' => $todos, 'user' => $user,  'tags' => $tags]);
+        } else {
+            return view('auth/login');
+        }
     }
-    
 
 
-    
 
-    
+
+
+
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    
+
 
     /**
      * Store a newly created resource in storage.
@@ -51,28 +53,27 @@ class TodoController extends Controller
     public function store(Request $request)
 
     {
+        $todo = new Todo;
+        $todo->user_id = auth()->user()->id;
+        $form = $request->all();
+        dd($form);
+        unset($form['_token']);
+        $todo->fill($form,)->save();
 
-        $todo = Todo::create(['content','tag_id'=> $request]);
-        Todo::create($todo);
-        
-        
-        
+
         return redirect('/home');
-
-    
     }
 
-    
+
     public function find()
     {
         $tags = Tag::all();
         $user = Auth::user();
         $todos = [];
-        
 
-        return view ('find', ['todos'=>$todos, 'tags'=>$tags, 'user'=>$user]);
-        
-    }    
+
+        return view('find', ['todos' => $todos, 'tags' => $tags, 'user' => $user]);
+    }
 
 
     public function search(Request $request)
@@ -86,7 +87,7 @@ class TodoController extends Controller
             'keyword' => $keyword,
             'id' => $tag_id
         ];
-        return view('find', $param, $tags,$user);
+        return view('find', $param, $tags, $user);
     }
     /**
      * Display the specified resource.
@@ -122,11 +123,10 @@ class TodoController extends Controller
         $todo = [
             'content' => $request->input(),
             'tag_id' => $request->input()
-        ];    
-        
+        ];
+
         Todo::where('id', $request->id)->update($todo);
         return redirect('/home');
-    
     }
 
     /**
@@ -144,7 +144,4 @@ class TodoController extends Controller
 
         return redirect('/home');
     }
-
-    
 }
-

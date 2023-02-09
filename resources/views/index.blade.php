@@ -156,7 +156,6 @@
         </form>
       </ul>
       <form action="{{route('todo_find')}}" method="GET">
-        @dsrf
         <input class="find" type="submit" name="f_button" value="タスク検索"><br>
       </form>
       <form action="/create" method="POST">
