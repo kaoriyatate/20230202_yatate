@@ -18,8 +18,8 @@
       box-sizing: border-box;
       border-radius: 10px 10px;
       background-color: #FFFFFF;
-      width: 550px;
-      margin: 0 auto;
+      width: 600px;
+      margin: auto;
 
     }
 
@@ -101,7 +101,7 @@
 
     .list {
       vertical-align: middle;
-      width: 500px;
+      width: 590px;
     }
 
     .title {
@@ -161,6 +161,11 @@
           <td>{{$todo->created_at}}</td>
           <p><input type="hidden" name="id" value="{{$todo->id}}"></p>
           <td><input type="text" class="title" name="content" value="{{ $todo->content }}"></td>
+          <td><select class="form-control" id="tag_id" name="tag_id">
+              @foreach ($tags as $tag)
+              <option value="{{ $tag->tag_id }}">{{ $tag->category }}</option>
+              @endforeach
+          </select></td>
           <td><button type="submit" class="update">更新</button></td>
         </form>
         <form action="/delete" method="POST">

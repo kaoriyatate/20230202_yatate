@@ -34,6 +34,5 @@ class TagsTableSeeder extends Seeder
             'category' => '移動'
         ];
         Tag::create($param);
-
     }
 }

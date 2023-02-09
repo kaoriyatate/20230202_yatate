@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Todo;
 
 
 class Tag extends Model
@@ -13,6 +14,6 @@ class Tag extends Model
 
     public function todos()
     {
-        return $this->hasMany('App\Models\todo');
+        return $this->hasMany(Todo::class);
     }
 }

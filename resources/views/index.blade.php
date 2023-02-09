@@ -155,55 +155,56 @@
           <li><input class="logaut" type="submit" name="log_button" value="ログアウト"></li>
         </form>
       </ul>
-        <form action="{{route('todo_find',)}}" method="GET">
-          <input class="find" type="submit" name="f_button" value="タスク検索"><br>
-        </form>  
-        <form action="/create" method="POST">
-          @csrf
-          <input type="text" class="content" name="content" value="">
-          <select class="form-control" id="tag_id" name="tag_id">
-            @foreach ($tags as $tag)
-            <option value="{{ $tag->tag_id }}">{{ $tag->category }}</option>
-            @endforeach
-          </select>
-          <button type="submit" class="create">追加</button>
-          @if($errors->has('content'))
-          <dl>
-            <dt>ERROR</dt>
-            <dd>{{$errors->first('content')}}</dd>
-          </dl>
-          @endif
-        </form>
-        <table class="list">
-          <tr>
-            <th>作成日</th>
-            <th>タスク名</th>
-            <th>タグ</th>
-            <th>更新</th>
-            <th>削除</th>
-          </tr>
-          @foreach($todos as $todo)
-          <tr>
-            <form action="/update" method="POST">
-              @csrf
-              <td>{{$todo->created_at}}</td>
-              <p><input type="hidden" name="id" value="{{$todo->id}}"></p>
-              <td><input type="text" class="title" name="content" value="{{ $todo->content }}"></td>
-              <td><select class="form-control" id="tag_id" name="tag_id">
-                  @foreach ($tags as $tag)
-                  <option value="{{ $tag->tag_id }}">{{ $tag->category }}</option>
+      <form action="{{route('todo_find')}}" method="GET">
+        @dsrf
+        <input class="find" type="submit" name="f_button" value="タスク検索"><br>
+      </form>
+      <form action="/create" method="POST">
+        @csrf
+        <input type="text" class="content" name="content" value="">
+        <select class="form-control" id="tag_id" name="tag_id">
+          @foreach ($tags as $tag)
+          <option value="{{ $tag->tag_id }}" @if (empty($todo->tag_id)) selected @endif>{{ $tag->category }}</option>
+          @endforeach
+        </select>
+        <button type="submit" class="create">追加</button>
+        @if($errors->has('content'))
+        <dl>
+          <dt>ERROR</dt>
+          <dd>{{$errors->first('content')}}</dd>
+        </dl>
+        @endif
+      </form>
+      <table class="list">
+        <tr>
+          <th>作成日</th>
+          <th>タスク名</th>
+          <th>タグ</th>
+          <th>更新</th>
+          <th>削除</th>
+        </tr>
+        @foreach($todos as $todo)
+        <tr>
+          <form action="/update" method="POST">
+            @csrf
+            <td>{{$todo->created_at}}</td>
+            <p><input type="hidden" name="id" value="{{$todo->id}}"></p>
+            <td><input type="text" class="title" name="content" value="{{ $todo->content }}"></td>
+            <td><select class="form-control" id="tag_id" name="tag_id">
+                @foreach ($tags as $tag)
+                <option value="{{ $tag->id}}" @if(isset($todo->tag_id) && ($todo->tag_id === $tag->id)) selected @endif>{{ $tag->category }}</option>
                   @endforeach
               </select></td>
-              <td><button type="submit" class="update">更新</button></td>
-            </form>
-            <form action="/delete" method="POST">
-              @csrf
-              <p><input type="hidden" name="id" value="{{$todo->id}}"></p>
-              <td><input class="delete" type="submit" name="de_button" value="削除"></td>
-            </form>
-          </tr>
-          @endforeach
-        </table>
+            <td><button type="submit" class="update">更新</button></td>
+          </form>
+          <form action="/delete" method="POST">
+            @csrf
+            <p><input type="hidden" name="id" value="{{$todo->id}}"></p>
+            <td><input class="delete" type="submit" name="de_button" value="削除"></td>
+          </form>
+        </tr>
+        @endforeach
+      </table>
     </div>
   </section>
 </body>

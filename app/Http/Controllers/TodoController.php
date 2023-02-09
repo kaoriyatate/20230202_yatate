@@ -8,6 +8,7 @@ use App\Http\Requests\TodoRequest;
 use App\Models\Tag;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Symfony\Component\Console\Input\Input;
 
 class TodoController extends Controller
 {
@@ -18,17 +19,14 @@ class TodoController extends Controller
      */
     public function index()
     {
-        $tags = Tag::all();
-        $user = Auth::user();
-        $todos = Todo::paginate(4);
-        $param = ['todos'=> $todos, 'user'=> $user, 'tags'=> $tags];
         $todos = Todo::all();
-
-        if (Auth::check()) {
-            return view('index', $param);
-        } else {
-            return view('auth/login');
-        }   
+        $user = Auth::user();
+        $tags = Tag::all();
+        $todos = Todo::paginate(4);
+        
+        
+        return view('index', ['todos'=>$todos,'user' =>$user,'tags'=>$tags]);
+        
         
     }
     
@@ -50,53 +48,45 @@ class TodoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TodoRequest $request)
+    public function store(Request $request)
 
     {
 
-        $todo = new Todo;
-        $request -> merge(['user_id'=> Auth::id()]);
-        $request -> merge(['tag_id'=>Tag::id()]);
-        $form = $request->all();
-        unset($form['_token']);
-        $todo->fill($form)->save();
-    
-
+        $todo = Todo::create(['content','tag_id'=> $request]);
+        Todo::create($todo);
+        
+        
+        
         return redirect('/home');
 
     
-
-
-
     }
 
     
-    public function find(Request $request)
+    public function find()
     {
         $tags = Tag::all();
         $user = Auth::user();
-        $todos = Todo::paginate(4);
-        $param = ['todos' => $todos, 'user' => $user, 'tags' => $tags];
-        $todos = Todo::all();
+        $todos = [];
+        
 
-        $action = $request->get('action', 'back');
-
-        return view('find', $param, ['input' => '']);
-        if ($action == 'back') {
-            return redirect('/home');
-
-        }
+        return view ('find', ['todos'=>$todos, 'tags'=>$tags, 'user'=>$user]);
+        
     }    
 
 
     public function search(Request $request)
     {
-        $todo = Todo::where('content','LIKE BINARY', "%{$request->input}%")->first();
+        $tags = Tag::all();
+        $user = Auth::user();
+        $keyword = Todo::where('content', 'LIKE BINARY', "%{$request->input}%")->first();
+        $tag_id = Tag::where('id', $request->input)->first();
         $param = [
-                'input' => $request->input,
-                'todo' => $todo
-            ];
-        return view('find', $param);
+            'input' => $request->input,
+            'keyword' => $keyword,
+            'id' => $tag_id
+        ];
+        return view('find', $param, $tags,$user);
     }
     /**
      * Display the specified resource.
@@ -129,9 +119,12 @@ class TodoController extends Controller
      */
     public function update(TodoRequest $request)
     {
-        $form = $request->all();
-        unset($form['_token']);
-        Todo::where('id', $request->id)->update($form);
+        $todo = [
+            'content' => $request->input(),
+            'tag_id' => $request->input()
+        ];    
+        
+        Todo::where('id', $request->id)->update($todo);
         return redirect('/home');
     
     }
@@ -147,10 +140,11 @@ class TodoController extends Controller
 
 
         Todo::find($request->id)->delete();
-        Tag::find($request->id)->delete();
+
 
         return redirect('/home');
     }
+
     
 }
 

@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Todo;
 use Illuminate\Database\Seeder;
 
 class TodosTableSeeder extends Seeder
@@ -15,13 +14,40 @@ class TodosTableSeeder extends Seeder
     public function run()
     {
         $param = [
-            'id' => '4',
+            'id' => '1',
+            'content' => '掃除',
             'user_id' => '1',
-            'content' => '9',
             'tag_id' => '1'
         ];
-        Todo::create($param) ;
-
+        Todo::create($param);
+        $param = [
+            'id' => '2',
+            'content' => '散歩',
+            'user_id' => '1',
+            'tag_id' => '3',
+        ];
+        Todo::create($param);
+        $param = [
+            'id' => '3',
+            'content' => 'プログラミング',
+            'user_id' => '1',
+            'tag_id' => '2',
+        ];
+        Todo::create($param);
+        $param = [
+            'id' => '4',
+            'content' => '出勤',
+            'user_id' => '1',
+            'tag_id' => '5',
+        ];
+        Todo::create($param);
+        $param = [
+            'id' => '5',
+            'content' => '外食',
+            'user_id' => '1',
+            'tag_id' => '4',
+        ];
+        Todo::create($param);
 
     }
 }
