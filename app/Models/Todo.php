@@ -18,8 +18,12 @@ class Todo extends Model
     protected $fillable = [
         'content',
         'tag_id',
-        
-    ];    
+        'user_id',
+        'created_at',
+        'updated_at'
+    ];
+
+    
 
 
 
@@ -35,9 +39,6 @@ class Todo extends Model
 
 
 
-    
-
-
     public function isSelectedTag($tag_id,$request)
     {
         if(!$tag_id === $request->tag_id){
@@ -49,5 +50,5 @@ class Todo extends Model
         return $this->null;
         }
     }
-}
 
+}

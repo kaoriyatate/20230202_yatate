@@ -132,13 +132,17 @@
     }
 
     .back {
+      display: inline-block;
+      text-decoration: none;
+      text-align: center;
       border: 2px solid blue;
       border-radius: 5px;
       font-weight: bold;
       background-color: #FFFFFF;
       width: 60px;
-      height: 35px;
+      height: 30px;
       margin-left: 20px;
+      padding-top: 10px;
     }
   </style>
 </head>
@@ -163,9 +167,9 @@
           <td><input type="text" class="title" name="content" value="{{ $todo->content }}"></td>
           <td><select class="form-control" id="tag_id" name="tag_id">
               @foreach ($tags as $tag)
-              <option value="{{ $tag->tag_id }}">{{ $tag->category }}</option>
+              <option value="{{ $tag->id}}" @if(isset($todo->tag_id) && ($todo->tag_id === $tag->id)) selected @endif>{{ $tag->category }}</option>
               @endforeach
-          </select></td>
+            </select></td>
           <td><button type="submit" class="update">更新</button></td>
         </form>
         <form action="/delete" method="POST">
@@ -178,6 +182,7 @@
       @yield('list')
     </table>
   </section>
+  <a class="back" href="/home">戻る</a>
 </body>
 
 </html>

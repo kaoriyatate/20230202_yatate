@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Symfony\Component\Console\Input\Input;
 
+
 class TodoController extends Controller
 {
     /**
@@ -50,13 +51,12 @@ class TodoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TodoRequest $request)
 
     {
         $todo = new Todo;
         $todo->user_id = auth()->user()->id;
         $form = $request->all();
-        dd($form);
         unset($form['_token']);
         $todo->fill($form,)->save();
 
@@ -78,16 +78,34 @@ class TodoController extends Controller
 
     public function search(Request $request)
     {
+
+        $tag_id = $request->input('tag_id');
+        $keyword = $request->input('keyword');
+
+        $query = Todo::query();
+        
+        
+            
+        if (!empty($keyword)) {
+            $query->where('content', 'LIkE', "%{$keyword}%");
+        }
+        
+        if (!empty($tag_id)) {
+            $query->where('tag_id', 'LIKE', $tag_id);
+        }
+        $todos = $query->get();
+    
+
         $tags = Tag::all();
         $user = Auth::user();
-        $keyword = Todo::where('content', 'LIKE BINARY', "%{$request->input}%")->first();
-        $tag_id = Tag::where('id', $request->input)->first();
-        $param = [
-            'input' => $request->input,
-            'keyword' => $keyword,
-            'id' => $tag_id
-        ];
-        return view('find', $param, $tags, $user);
+        
+
+        return view('find', compact('todos', 'keyword', 'tags', 'tag_id','user'));
+
+        
+
+            
+    
     }
     /**
      * Display the specified resource.
@@ -118,14 +136,15 @@ class TodoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(TodoRequest $request)
+    public function update(Request $request )
     {
-        $todo = [
-            'content' => $request->input(),
-            'tag_id' => $request->input()
-        ];
+        $todo =Todo::find($request->id);
+        $todo -> update([
+            "content" => $request->content,
+            "tag_id" => $request->tag_id,
+        ]);
 
-        Todo::where('id', $request->id)->update($todo);
+
         return redirect('/home');
     }
 

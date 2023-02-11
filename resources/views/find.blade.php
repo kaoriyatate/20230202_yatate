@@ -13,10 +13,12 @@
     </form>
   </ul>
   <form action="/home/search" method="GET">
-    <input type="text" class="content" name="content" value="">
+    <input type="text" class="content" name="keyword" value="">
     <select class="form-control" id="tag_id" name="tag_id">
       @foreach ($tags as $tag)
-      <option value="{{ $tag->tag_id }}">{{ $tag->tag_category }}</option>
+      <option value="" hidden></option>
+      <option value="{{ $tag->id }}" @if(isset($todo->tag_id) && ($todo->tag_id === $tag->id)) selected @endif>{{ $tag->category }}</option>
+      <option value=""></option>
       @endforeach
     </select>
     <button type="submit" class="create">検索</button>
@@ -24,4 +26,4 @@
 
   @yield('list')
 
-  <button type="submit" class="back" name="action" value="back">戻る</button>
+
