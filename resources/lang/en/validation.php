@@ -145,6 +145,32 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'name' => [
+        'name.required' => '名前を入力して下さい',
+        'name.string' => '文字で入力して下さい',
+        'name.max' => '191文字以内で入力して下さい',
+        ],
+        'email' =>[
+        'email.required' => 'メールアドレスを入力して下さい',
+        'email.email' => 'メール形式で入力して下さい',
+        'email min' => '8文字以上で入力して下さい',
+        'email. max' => '191文字以内で入力して下さい',
+        'email.email' => '有効なメールアドレス形式で入力して下さい',
+        'email.unique' => '指定されたメールアドレスは既に使用されています',
+        ],
+        'password' => [
+        'password.required' => 'パスワードを入力して下さい',
+        'password.min' => '8文字以上で入力して下さい',
+        'password.max' => '191文字以上で入力して下さい',
+        ],
+        'confirm_password' => [
+        'confirm_password.required' => 'パスワードが一致しません',
+        'confirm_password.same' => '指定されたメールアドレスは既に使用されています',
+        ],
+
+
+
+
     ],
 
     /*
@@ -159,5 +185,9 @@ return [
     */
 
     'attributes' => [],
+    'name' => [],
+    'email' => [],
+    'password' => [],
+    'confirm_password' => [],
 
 ];

@@ -39,12 +39,7 @@
 
                 <x-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required />
             </div>
-            @if($errors->has('email'))
-            <dl>
-                <dt>ERROR</dt>
-                <dd>{{$errors->first('email')}}</dd>
-            </dl>
-            @endif
+            
 
             <div class="flex items-center justify-end mt-4">
                 <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
