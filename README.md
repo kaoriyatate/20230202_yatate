@@ -76,3 +76,15 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 　https://docs.google.com/spreadsheets/d/1quMIGrGkmwgk1B5NsuJjpPemgpo9G5edA-WnLwCwMaY/edit#gid=1583544572
 ＃ER図
 https://drive.google.com/file/d/1VPccC6QQJV-27YWtl6gL-aKWvsTNwPl9/view?usp=sharing
+
+
+#アプリケーション名
+　Todoアプリ
+＃作成した目的
+　演習問題として作成
+＃機能一覧
+　追加・更新・削除・検索・認証機能・タグ
+＃使用技術
+　laravel8.83.27
+＃テーブル設計＃ER図
+https://docs.google.com/spreadsheets/d/1DrS_lLwLhtKo8Y7IDh4EZXKIy_aHLOpx/edit?usp=sharing&ouid=103564389036355705186&rtpof=true&sd=true
