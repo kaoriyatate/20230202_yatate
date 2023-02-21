@@ -49,6 +49,7 @@
                     {{ __('Log in') }}
                 </x-button>
             </div>
+            <a class=newuser href="{{ route('register')}}">ユーザー登録が未登録の方はこちら</a>
         </form>
     </x-auth-card>
 </x-guest-layout>

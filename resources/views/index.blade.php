@@ -36,7 +36,7 @@
       margin-top: -50px;
     }
 
-    .logaut {
+    .logout {
       background-color: #FFFFFF;
       border: 2px solid red;
       border-radius: 5px;
@@ -150,12 +150,12 @@
         @if(Auth::check())
         <li>{{$user->name}}でログイン中</li>
         @endif
-        <form action="{{route('logout')}}" method="POST">
+        <form action="{{ route('logout') }}" method="POST">
           @csrf
-          <li><input class="logaut" type="submit" name="log_button" value="ログアウト"></li>
+          <li><input class="logout" type="submit" name="log_button" value="ログアウト"></li>
         </form>
       </ul>
-      <form action="{{route('todo_find')}}" method="GET">
+      <form action="/find" method="GET">
         <input class="find" type="submit" name="f_button" value="タスク検索"><br>
       </form>
       <form action="/create" method="POST">

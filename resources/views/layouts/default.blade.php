@@ -36,7 +36,7 @@
       margin-top: -50px;
     }
 
-    .logaut {
+    .logout {
       background-color: #FFFFFF;
       border: 2px solid red;
       border-radius: 5px;
@@ -182,7 +182,7 @@
       @yield('list')
     </table>
   </section>
-  <a class="back" href="/home">戻る</a>
+  <a class="back" href="/">戻る</a>
 </body>
 
 </html>

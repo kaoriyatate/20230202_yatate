@@ -7,12 +7,12 @@
     @if(Auth::check())
     <li> {{$user->name}}でログイン中</li>
     @endif
-    <form action="{{route('logout')}}" method="POST">
+    <form action="{{ route('logout') }}" method="POST">
       @csrf
-      <li><input class="logaut" type="submit" name="log_button" value="ログアウト"></li>
+      <li><input class="logout" type="submit" name="log_button" value="ログアウト"></li>
     </form>
   </ul>
-  <form action="/home/search" method="GET">
+  <form action="/search" method="GET">
     <input type="text" class="content" name="keyword" value="">
     <select class="form-control" id="tag_id" name="tag_id">
       @foreach ($tags as $tag)
@@ -25,5 +25,3 @@
   </form>
 
   @yield('list')
-
-

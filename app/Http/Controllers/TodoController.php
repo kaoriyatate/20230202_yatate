@@ -8,7 +8,6 @@ use App\Http\Requests\TodoRequest;
 use App\Models\Tag;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-use Symfony\Component\Console\Input\Input;
 
 
 class TodoController extends Controller
@@ -20,15 +19,16 @@ class TodoController extends Controller
      */
     public function index()
     {
-        $todos = Todo::all();
         $user = Auth::user();
-        $tags = Tag::all();
-        $todos = Todo::paginate(4);
+        $todos = Todo::all();
+        $tags = Tag::all(); 
+        
+        
 
-
-        if (Auth::check()) {
-            return view('index', ['todos' => $todos, 'user' => $user,  'tags' => $tags]);
-        } else {
+        if (Auth::check()){ 
+            return view('index',['todos' => $todos, 'tags' => $tags, 'user' => $user ]);
+        }  
+        else {
             return view('auth/login');
         }
     }
@@ -61,7 +61,7 @@ class TodoController extends Controller
         $todo->fill($form,)->save();
 
 
-        return redirect('/home');
+        return redirect('/');
     }
 
 
@@ -70,14 +70,25 @@ class TodoController extends Controller
         $tags = Tag::all();
         $user = Auth::user();
         $todos = [];
+        
 
-
-        return view('find', ['todos' => $todos, 'tags' => $tags, 'user' => $user]);
+        if (Auth::check()) {
+            return view('find', ['todos' => $todos, 'user' =>$user, 'tags' => $tags]);
+        } else {
+            return view('auth/login');
+        }
+        
     }
 
 
     public function search(Request $request)
     {
+
+        $tags = Tag::all();
+        $user = Auth::user();
+        
+        
+
 
         $tag_id = $request->input('tag_id');
         $keyword = $request->input('keyword');
@@ -85,21 +96,26 @@ class TodoController extends Controller
         $query = Todo::query();
         
         
+        
             
         if (!empty($keyword)) {
             $query->where('content', 'LIkE', "%{$keyword}%");
+            
         }
         
         if (!empty($tag_id)) {
             $query->where('tag_id', 'LIKE', $tag_id);
-        }
-        $todos = $query->get();
-    
 
-        $tags = Tag::all();
-        $user = Auth::user();
+
+        }
+
+        $todos = \Auth::user()->todos;
+        $todos = $query->get();
+
+        
         
 
+        
         return view('find', compact('todos', 'keyword', 'tags', 'tag_id','user'));
 
         
@@ -145,7 +161,7 @@ class TodoController extends Controller
         ]);
 
 
-        return redirect('/home');
+        return redirect('/');
     }
 
     /**
@@ -161,6 +177,6 @@ class TodoController extends Controller
         Todo::find($request->id)->delete();
 
 
-        return redirect('/home');
+        return redirect('/');
     }
 }

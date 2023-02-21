@@ -26,8 +26,8 @@ class RejisterRequest extends FormRequest
         return [
             'name' => 'required|string|max:191',
             'email' => 'required|email|min:8|max:191|unique:users',
-            'password' => 'required|min:8|max:191',
-            'confirm_password' => 'required|same:user_password', 
+            'password' => 'required|min:8|max:191|confirmed',
+            'confirm_password' => 'same:user_password', 
         ];
     }
 
@@ -46,7 +46,7 @@ class RejisterRequest extends FormRequest
             'password.required' => 'パスワードを入力して下さい',
             'password.min' => '8文字以上で入力して下さい',
             'password.max' => '191文字以上で入力して下さい',
-            'confirm_password.required' => 'パスワードが一致しません',
+            'password.confirmed' => 'パスワードが一致しません',
             'confirm_password.same' => '指定されたメールアドレスは既に使用されています',
 
         ];

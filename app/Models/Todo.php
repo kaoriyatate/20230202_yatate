@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Tag;
@@ -51,4 +52,12 @@ class Todo extends Model
         }
     }
 
+    protected static function booted()
+    {
+        static::addGlobalScope('user_id', function (Builder $builder) {
+
+            $user_id = auth()->id();
+            $builder->where('user_id', $user_id);
+        });
+    }
 }
