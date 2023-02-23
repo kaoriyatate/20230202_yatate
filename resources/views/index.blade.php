@@ -163,8 +163,7 @@
         <input type="text" class="content" name="content" value="">
         <select class="form-control" id="tag_id" name="tag_id">
           @foreach ($tags as $tag)
-          <option value="" hidden></option>
-          <option value="{{ $tag->id }}" @if (isset($todo->tag_id)) selected @endif>{{ $tag->category }}</option>
+          <option value="{{ $tag->id }}" @if(isset($todo->tag_id)) && ($todo->tag_id === $tag->id))selected @endif>{{ $tag->category }}</option>
           @endforeach
         </select>
         <button type="submit" class="create">追加</button>
@@ -172,9 +171,7 @@
         <dl>
           <dt>ERROR</dt>
           <dd>{{$errors->first('content')}}</dd>
-        </dl>
-        @endif
-        @if($errors->has('tag_id'))
+        </dl @endif @if($errors->has('tag_id'))
         <dl>
           <dt>ERROR</dt>
           <dd>{{$errors->first('tag_id')}}</dd>

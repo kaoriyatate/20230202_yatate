@@ -14,12 +14,14 @@ use App\Http\Controllers\TodoController;
 |
 */
 
+Route::middleware('auth')->group(function() {
 Route::get('/', [TodoController::class, 'index'])->name('todo_index');
 Route::get('/find', [TodoController::class, 'find'])->name('todo_find');
 Route::get('/search', [TodoController::class, 'search'])->name('todo_search');
 Route::post('/create', [TodoController::class, 'store'])->name('todo_store');
 Route::post('/update', [TodoController::class, 'update'])->name('todo_update');
 Route::post('/delete', [TodoController::class, 'destroy'])->name('todo_delete');
+});
 
 
 

@@ -8,15 +8,13 @@ use App\Http\Requests\TodoRequest;
 use App\Models\Tag;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Validation\Validator as ValidationValidator;
+use Validator;
 
 
 class TodoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function index()
     {
         $user = Auth::user();
@@ -33,12 +31,6 @@ class TodoController extends Controller
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(TodoRequest $request)
 
     {
@@ -49,7 +41,9 @@ class TodoController extends Controller
         $todo->fill($form,)->save();
 
 
-        return redirect('/');
+        
+            return redirect('/');
+    
     }
 
 
@@ -75,15 +69,10 @@ class TodoController extends Controller
         $tags = Tag::all();
         $user = Auth::user();
         
-        
-
-
         $tag_id = $request->input('tag_id');
         $keyword = $request->input('keyword');
 
         $query = Todo::query();
-        
-        
         
             
         if (!empty($keyword)) {
@@ -100,41 +89,40 @@ class TodoController extends Controller
         $todos = \Auth::user()->todos;
         $todos = $query->get();
 
-        
-        
 
-        
-        return view('find', compact('todos', 'keyword', 'tags', 'tag_id','user'));
-
-        
+            return view('find', compact('todos', 'keyword', 'tags', 'tag_id', 'user'));
+    
+    
     }
 
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request )
     {
+        $validator = Validator::make($request->all(), [
+            'content' =>'required|max:20',
+            'category' =>'required',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect('/')
+            ->withErrors($validator)
+            ->withInput();
+        } else {
+            return view('/');
+        }
+
         $todo =Todo::find($request->id);
         $todo -> update([
             "content" => $request->content,
             "tag_id" => $request->tag_id,
         ]);
 
-
-        return redirect('/');
+        
+            return redirect('/');
+        
+        
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy(Request $request)
     {
 
@@ -142,6 +130,9 @@ class TodoController extends Controller
         Todo::find($request->id)->delete();
 
 
-        return redirect('/');
+        
+            return redirect('/');
+        
+        
     }
 }
