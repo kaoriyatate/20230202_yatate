@@ -105,7 +105,7 @@ class TodoController extends Controller
         ]);
 
 
-        return redirect('/');
+        return redirect()->back();
     }
 
 
@@ -116,8 +116,8 @@ class TodoController extends Controller
         Todo::find($request->id)->delete();
 
 
-        
-            return redirect('/');
+
+        return redirect()->back();
         
         
     }
