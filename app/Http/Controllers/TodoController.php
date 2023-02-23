@@ -95,31 +95,17 @@ class TodoController extends Controller
     
     }
 
-    public function update(Request $request )
+    public function update(TodoRequest $request )
     {
-        $validator = Validator::make($request->all(), [
-            'content' =>'required|max:20',
-            'category' =>'required',
-        ]);
-
-        if ($validator->fails()) {
-            return redirect('/')
-            ->withErrors($validator)
-            ->withInput();
-        } else {
-            return view('/');
-        }
-
-        $todo =Todo::find($request->id);
-        $todo -> update([
+    
+        $todo = Todo::find($request->id);
+        $todo->update([
             "content" => $request->content,
             "tag_id" => $request->tag_id,
         ]);
 
-        
-            return redirect('/');
-        
-        
+
+        return redirect('/');
     }
 
 

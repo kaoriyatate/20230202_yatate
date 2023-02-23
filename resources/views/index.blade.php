@@ -167,14 +167,12 @@
           @endforeach
         </select>
         <button type="submit" class="create">追加</button>
-        @if($errors->has('content'))
+        @if($errors->any())
         <dl>
+          @foreach($errors->all() as $error)
           <dt>ERROR</dt>
-          <dd>{{$errors->first('content')}}</dd>
-        </dl @endif @if($errors->has('tag_id'))
-        <dl>
-          <dt>ERROR</dt>
-          <dd>{{$errors->first('tag_id')}}</dd>
+          <dd>{{ $error }}</dd>
+          @endforeach
         </dl>
         @endif
       </form>
